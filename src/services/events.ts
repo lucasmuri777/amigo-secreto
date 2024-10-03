@@ -39,8 +39,22 @@ export const update = async(id: number, data: EventUpdateData) =>{
 
 export const remove = async(id: number) =>{
     try{
-        return await prisma.event.delete({where: {id}});
-    }catch(err) { return false }
+         // Deletar registros relacionados em EventPeople
+    await prisma.eventPeople.deleteMany({
+        where: { id_event: id },
+      });
+  
+      // Deletar registros relacionados em EventGroup
+      await prisma.eventGroup.deleteMany({
+        where: { id_event: id },
+      });
+  
+      // Agora deletar o próprio Event
+      return await prisma.event.delete({
+        where: { id },
+      });
+    
+    }catch(err) { console.log(err);return false }
 }
 
  /*

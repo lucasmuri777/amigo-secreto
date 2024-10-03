@@ -11,7 +11,7 @@ router.get('/ping', auth.validate, (req, res) => {
         pong: true
     })
 })
-router.get('/login', auth.login)
+router.post('/login', auth.login)
 
 //rota de listar todos os eventos
 router.get('/events', auth.validate, events.getAll);
